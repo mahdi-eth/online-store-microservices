@@ -1,0 +1,7 @@
+server:
+  port: 50052
+database:
+  uri: "mongodb://order_user:order_password@order-db:27017"
+  name: "order_db"
+nats:
+  url: "nats://nats:4222"

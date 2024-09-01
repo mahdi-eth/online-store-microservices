@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-service
+  template:
+    metadata:
+      labels:
+        app: order-service
+    spec:
+      containers:
+      - name: order-service
+        image: online-store-order-service:latest
+        ports:
+        - containerPort: 50052
+        env:
+        - name: NATS_URL
+          value: "nats://nats:4222"

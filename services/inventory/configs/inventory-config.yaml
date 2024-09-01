@@ -1,0 +1,7 @@
+server:
+  port: 50053
+redis:
+  host: "inventory-redis"
+  port: 6379
+nats:
+  url: "nats://nats:4222"

@@ -1,0 +1,10 @@
+server:
+  port: 50051
+database:
+  host: "product-db"
+  port: 5432
+  user: "product_user"
+  password: "product_password"
+  name: "product_db"
+nats:
+  url: "nats://nats:4222"

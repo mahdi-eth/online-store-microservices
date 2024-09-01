@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product-service
+  template:
+    metadata:
+      labels:
+        app: product-service
+    spec:
+      containers:
+      - name: product-service
+        image: online-store-product-service:latest
+        ports:
+        - containerPort: 50051
+        env:
+        - name: NATS_URL
+          value: "nats://nats:4222"

@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package inventory;
+
+option go_package = "github.com/mahdi-eth/online-store/services/grpc;grpc";
+
+// The Inventory service definition.
+service InventoryService {
+  rpc UpdateInventory(UpdateInventoryRequest) returns (InventoryResponse);
+  rpc GetInventory(GetInventoryRequest) returns (InventoryResponse);
+}
+
+// Inventory represents the inventory entity
+message Inventory {
+  string product_id = 1;
+  int32 quantity = 2;
+}
+
+// UpdateInventoryRequest is the request message for updating inventory level
+message UpdateInventoryRequest {
+  string product_id = 1;
+  int32 quantity = 2;
+}
+
+// GetInventoryRequest is the request message for fetching inventory level by product ID
+message GetInventoryRequest {
+  string product_id = 1;
+}
+
+// InventoryResponse is the response message containing inventory details
+message InventoryResponse {
+  Inventory inventory = 1;
+}

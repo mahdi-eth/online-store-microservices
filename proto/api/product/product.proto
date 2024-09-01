@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package product;
+
+option go_package = "github.com/mahdi-eth/online-store/services/grpc;grpc";
+
+// The Product service definition.
+service ProductService {
+  rpc CreateProduct(CreateProductRequest) returns (ProductResponse);
+  rpc GetProduct(GetProductRequest) returns (ProductResponse);
+  rpc UpdateProduct(UpdateProductRequest) returns (ProductResponse);
+  rpc DeleteProduct(DeleteProductRequest) returns (DeleteProductResponse);
+  rpc ListProducts(Empty) returns (ListProductsResponse);
+}
+
+// Product represents the product entity
+message Product {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  double price = 4;
+  int32 quantity = 5;
+}
+
+// CreateProductRequest is the request message for creating a new product
+message CreateProductRequest {
+  Product product = 1;
+}
+
+// GetProductRequest is the request message for fetching a product by ID
+message GetProductRequest {
+  string id = 1;
+}
+
+// UpdateProductRequest is the request message for updating an existing product
+message UpdateProductRequest {
+  Product product = 1;
+}
+
+// DeleteProductRequest is the request message for deleting a product by ID
+message DeleteProductRequest {
+  string id = 1;
+}
+
+// DeleteProductResponse is the response message for confirming product deletion
+message DeleteProductResponse {
+  bool success = 1;
+}
+
+// ProductResponse is the response message containing a single product
+message ProductResponse {
+  Product product = 1;
+}
+
+// ListProductsResponse is the response message containing a list of products
+message ListProductsResponse {
+  repeated Product products = 1;
+}
+
+// Empty message
+message Empty {}

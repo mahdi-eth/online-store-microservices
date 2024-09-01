@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  product-service:
+    build:
+      context: ./services/product
+      dockerfile: Dockerfile
+    environment:
+      - NATS_URL=nats://nats:4222
+    ports:
+      - "50051:50051"
+    volumes:
+      - ./configs/product-config.yaml:/app/config.yaml
+    depends_on:
+      - product-db
+      - nats
+
+  order-service:
+    build:
+      context: ./services/order
+      dockerfile: Dockerfile
+    environment:
+      - NATS_URL=nats://nats:4222
+    ports:
+      - "50052:50052"
+    volumes:
+      - ./configs/order-config.yaml:/app/config.yaml
+    depends_on:
+      - order-db
+      - nats
+
+  inventory-service:
+    build:
+      context: ./services/inventory
+      dockerfile: Dockerfile
+    environment:
+      - NATS_URL=nats://nats:4222
+    ports:
+      - "50053:50053"
+    volumes:
+      - ./configs/inventory-config.yaml:/app/config.yaml
+    depends_on:
+      - inventory-redis
+      - nats
+
+  product-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: product_user
+      POSTGRES_PASSWORD: product_password
+      POSTGRES_DB: product_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - product-db-data:/var/lib/postgresql/data
+
+  order-db:
+    image: mongo:7.0
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: order_user
+      MONGO_INITDB_ROOT_PASSWORD: order_password
+    ports:
+      - "27017:27017"
+    volumes:
+      - order-db-data:/data/db
+
+  inventory-redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - inventory-redis-data:/data
+
+  nats:
+    image: nats:2.10-alpine
+    ports:
+      - "4222:4222"
+
+volumes:
+  product-db-data:
+  order-db-data:
+  inventory-redis-data:
